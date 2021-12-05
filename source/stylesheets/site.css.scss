@@ -3,10 +3,11 @@
 @import 'columns';
 
 $bg: #ffd862;
-$bg-light: #ffe69d;
-$bg-dark: #ffce3b;
-$heading: #b18400;
-$black: #111;
+$bg-light: #C30F16;
+$bg-dark: #1E792C;
+$heading: #1E792C;
+$black: #380410;
+$white: #fff;
 
 * {
     box-sizing: border-box;
@@ -199,10 +200,16 @@ table {
         font-size: 16px;
         line-height: 1.4;
     }
+    td {
+        color: $white;
+    }
     // If we only have one tbody, then we'll want to stripe the rows
     tbody:only-of-type {
-        tr:nth-child(even) {
+        tr:nth-child(even) td{
             background-color: $bg-light;
+        }
+        tr:nth-child(odd) td{
+            background-color: $bg-dark;
         }
     }
     // If we have more than one tbody, then let's stripe them instead
