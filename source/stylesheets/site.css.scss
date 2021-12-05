@@ -1,0 +1,546 @@
+@import '5e_fonts';
+@import 'flex';
+@import 'columns';
+
+$bg: #ffd862;
+$bg-light: #ffe69d;
+$bg-dark: #ffce3b;
+$heading: #b18400;
+$black: #111;
+
+* {
+    box-sizing: border-box;
+}
+
+@media screen {
+    body {
+        color: $black;
+        margin: auto;
+        padding: 1em;
+        font-size: 18px;
+        font-family: 'Bookinsanity', serif;
+        max-width: 980px;
+    }
+}
+
+@media screen {
+    // .divider is a divider for sections in a long scrolling
+    // doc where "chapter" breaks are non-obvious. Useful especially for columns.
+    .divider {
+        width: 0;
+        height: 0;
+        border: 180px solid transparent;
+        border-bottom: 3px solid $bg;
+        position: relative;
+        top: -150px;
+        margin: auto;
+        margin-bottom: -120px;
+    }
+
+    .divider:after {
+        position: absolute;
+        left: -180px;
+        top: 3px;
+        width: 0;
+        height: 0;
+        border: 180px solid transparent;
+        border-top: 3px solid $bg;
+        content: '';
+    }
+}
+
+@media print {
+    body {
+        color: $black;
+        margin: 0;
+        font-size: 18px;
+        font-family: 'Bookinsanity', serif;
+        width: 8.5in;
+    }
+
+    @page {
+        margin: 0.75in;
+    }
+
+    @page:left {
+        margin-right: 3cm;
+    }
+
+    @page:right {
+        margin-left: 3cm;
+    }
+
+    section {
+        page-break-before: always;
+    }
+
+    section.one-sided {
+        margin-right: 1cm;
+    }
+
+    .divider {
+        display: none;
+    }
+}
+
+h1, h2, h3, h4, h5 {
+    color: $heading;
+    font-family: 'Mr Eaves Small Caps', serif;
+    font-variant: small-caps;
+}
+
+h1 {
+    font-size: 60px;
+    margin: 0;
+}
+
+// h2 is only to be used for chapter headings
+h2 {
+    font-size: 48px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+h2 ~ p:first-of-type::first-letter {
+    font-family: 'Dungeon Drop Case', serif;
+    color: $heading;
+    float: left;
+    font-size: 6em;
+    line-height: 0.8;
+    padding-right: 0.3rem;
+}
+
+h2 ~ p:first-of-type::first-line {
+    font-family: 'Mr Eaves Small Caps', serif;
+    font-variant: small-caps;
+    font-size: 20px;
+    line-height: 1;
+}
+
+h3 {
+    font-size: 40px;
+    margin-top: 1rem;
+    margin-bottom: 6px;
+}
+
+h4 {
+    font-size: 32px;
+    border-bottom: 2px solid $heading;
+    margin-top: 1rem;
+    margin-bottom: 2px;
+}
+
+h5 {
+    font-size: 24px;
+    margin-top: 1rem;
+    margin-bottom: 2px;
+}
+
+h3 + .group > h5, h3 + h5 {
+    margin-top: 0;
+}
+
+section > h2:first-child, section > h3:first-child, section > h4:first-child {
+    margin-top: 0;
+}
+
+p {
+    margin: 0;
+}
+
+p + p {
+    text-indent: 1em;
+}
+
+ul {
+    margin: 0;
+    padding-left: 1.2em;
+}
+
+ul.simple {
+    margin: 0;
+    padding: 0 0 0.5em 1em;
+    list-style: none;
+    white-space: nowrap;
+}
+
+ul.checklist {
+    list-style: none;
+    padding: 0 0 0 2px;
+    li:before {
+        content: " ";
+        display: inline-block;
+        border: 1px solid $bg-dark;
+        border-radius: 2px;
+        margin-right: 0.4rem;
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+}
+
+table {
+    margin: 1em 0;
+    border-collapse: collapse;
+    font-family: 'Scaly Sans', sans-serif;
+    page-break-inside: avoid;
+    min-width: 50%;
+    caption {
+        font-family: 'Scaly Sans Caps Bold', sans-serif;
+        font-weight: bold;
+        font-variant: small-caps;
+        text-align: left;
+    }
+    th {
+        font-weight: bold;
+        text-align: left;
+    }
+    th, td {
+        padding: 0 4px;
+        font-size: 16px;
+        line-height: 1.4;
+    }
+    // If we only have one tbody, then we'll want to stripe the rows
+    tbody:only-of-type {
+        tr:nth-child(even) {
+            background-color: $bg-light;
+        }
+    }
+    // If we have more than one tbody, then let's stripe them instead
+    tbody:nth-of-type(even) {
+        background-color: $bg-light;
+    }
+    .spell, .magic, .reference, .elvish {
+        font-family: 'Scaly Sans Italic', sans-serif;
+        font-style: italic;
+    }
+    tfoot td {
+        font-size: 14px;
+        line-height: normal;
+    }
+}
+
+// Tables have a bottom margin equal to the margin we usually leave
+// before a heading, so if we end a section with a table, remove that
+// extra space.
+table + h3, table + h4 {
+    margin-top: 0;
+}
+
+// Usage:
+// aside
+//   .border.top
+//   .content
+//      .title
+//      p
+//   .border.bottom
+aside {
+    font-family: 'Scaly Sans', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+
+    float: right;
+    margin: calc(1em + 16px) 0;
+
+    .title {
+        font-family: 'Scaly Sans Caps Bold', sans-serif;
+        font-weight: bold;
+        font-style: normal;
+        font-variant: small-caps;
+        margin-top: 0;
+    }
+
+    .content {
+        padding: 5px 10px;
+        background-color: $bg-light;
+        box-shadow: 1px 4px 14px #888;
+        p {
+            line-height: 1.2;
+        }
+    }
+
+    .border {
+        width: 100%;
+    }
+    .top:before {
+        position: absolute;
+        top: -12px;
+        left: 0;
+        border-top: 11px solid transparent;
+        border-right: 24px solid black;
+        border-bottom: 1px solid black;
+        content: '';
+    }
+    .top:after {
+        position: absolute;
+        top: -12px;
+        right: 0;
+        border-top: 11px solid transparent;
+        border-left: 24px solid black;
+        border-bottom: 1px solid black;
+        content: '';
+    }
+    .top {
+        position: relative;
+        border-bottom: 3px solid black;
+    }
+    .bottom:before {
+        position: absolute;
+        bottom: -12px;
+        left: 0;
+        border-top: 1px solid black;
+        border-right: 24px solid black;
+        border-bottom: 11px solid transparent;
+        content: '';
+    }
+    .bottom:after {
+        position: absolute;
+        bottom: -12px;
+        right: 1px;
+        border-top: 1px solid black;
+        border-left: 24px solid black;
+        border-bottom: 11px solid transparent;
+        content: '';
+    }
+    .bottom {
+        position: relative;
+        border-top: 3px solid black;
+    }
+}
+
+.subhead {
+    font-family: 'Bookinsanity Bold Italic', serif;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.blockquote {
+    font-family: 'Bookinsanity Italic', serif;
+    font-style: italic;
+    margin-bottom: 1rem;
+    p:first-child:first-line {
+        font-family: 'Mr Eaves Small Caps', serif;
+        font-variant: small-caps;
+        font-style: normal;
+    }
+    .attribution {
+        text-align: right;
+        font-family: 'Bookinsanity', serif;
+        font-style: normal;
+    }
+}
+
+.read-aloud {
+    position: relative;
+    background-color: $bg-light;
+    margin: 0.8rem 3px;
+    padding: 0.8rem;
+    border-left: 3px solid $bg-dark;
+    border-right: 3px solid $bg-dark;
+    .circle {
+        position: absolute;
+        height: 6px;
+        width: 6px;
+        background-color: $bg-dark;
+        border-radius: 50%;
+        z-index: 8;
+    }
+    .top {
+        top: -1.5px;
+    }
+    .bottom {
+        bottom: -1.5px;
+    }
+    .left {
+        left: -4.5px;
+    }
+    .right {
+        right: -4.5px;
+    }
+}
+
+.stat-block {
+    font-size: 14px;
+    padding: 0.4em;
+    font-family: 'Scaly Sans', sans-serif;
+    page-break-inside: avoid;
+    .bar {
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-left: 32em solid $bg-dark;
+        margin: 3px 0;
+    }
+    .bar.narrow {
+        border-left: 32em solid $bg-dark;
+    }
+    .ability_scores {
+        text-align: center;
+        .ability {
+            font-weight: bolder;
+            width: 15%;
+        }
+        .score {
+            font-weight: normal;
+        }
+    }
+    .type, .spell, .magic, .i {
+        font-family: 'Scaly Sans Italic', sans-serif;
+        font-style: italic;
+    }
+    .subhead {
+        font-family: 'Scaly Sans Bold Italic', sans-serif;
+        font-style: italic;
+        font-weight: bold;
+    }
+    .features {
+        .feature {
+            margin-top: 0.8rem;
+        }
+    }
+    .actions {
+        margin-top: 0.8rem;
+        h6 {
+            font-family: 'Scaly Sans Caps Bold', sans-serif;
+            font-weight: bold;
+            font-variant: small-caps;
+            border-bottom: 1px solid $bg-dark;
+            color: $bg-dark;
+            width: 98%;
+            font-size: 18px;
+            text-align: left;
+            margin: 0;
+        }
+        p {
+            text-indent: 1em;
+        }
+        .action:not(:last-of-type) {
+            margin-bottom: 1em;
+        }
+    }
+}
+
+.encounter {
+    // Not sure why but 12in fits on a page.
+    // 12.5in is too much, though, and causes a blank page
+    // between encounters. This is a hack, probably a
+    // permanent one, sadly.
+    max-height: 12in;
+    .initiative-tracker {
+        display: flex;
+        flex-direction: column;
+        width: 19%;
+        border-radius: 5px;
+        border: 1px solid $bg-dark;
+        margin-right: 0.8rem;
+        max-height: 11in;
+        .initiative {
+            line-height: 1.5;
+            height: 2em;
+        }
+        .initiative:not(:last-child) {
+            border-bottom: 1px dotted $black;
+        }
+    }
+
+    > div:not(.initiative-tracker) {
+        width: 80%;
+    }
+
+    .content > div {
+        margin-bottom: 0.8rem;
+        h5 {
+            margin: 0;
+        }
+    }
+
+    .stats {
+        .head {
+            text-align: center;
+            border-bottom: 1px solid $bg-dark;
+        }
+        .health {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .enemy {
+                font-size: 14px;
+                min-width: 11em;
+                margin-right: 0.4rem;
+                margin-bottom: 0.4rem;
+            }
+        }
+    }
+
+    .stat-block {
+        .bar {
+            border-left: 25em solid $bg-dark;
+        }
+    }
+}
+
+.magic-item {
+    .heading {
+        margin-bottom: 0.5rem;
+    }
+}
+
+// Apply this style only on worksheets used to create magic item "cards" for
+// handing out to players.
+.cards {
+    .magic-item {
+        margin-right: 1cm;
+    }
+    .magic-item + .magic-item {
+        margin-top: 1.5in;
+    }
+}
+
+.bg {
+    background-color: $bg;
+}
+
+.bg.light {
+    background-color: $bg-light;
+}
+
+.bg.dark {
+    background-color: $bg-dark;
+}
+
+.small {
+    font-size: 14px;
+}
+
+.emph, .strong, .b {
+    font-weight: bolder;
+}
+
+.spell, .magic, .reference, .elvish, .i {
+    font-family: 'Bookinsanity Italic', serif;
+    font-style: italic;
+}
+
+.box {
+    border-radius: 3px;
+    border: 1px solid $bg-dark;
+    padding: 3px;
+}
+
+.pull-up {
+    margin-top: 0;
+}
+
+.space-above {
+    margin-top: 1cm;
+}
+
+.hang {
+    text-indent: -1em;
+    padding-left: 1em;
+}
+
+.group {
+    page-break-inside: avoid;
+}

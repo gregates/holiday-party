@@ -1,0 +1,6 @@
+[submodule "5e-styles"]
+	path = 5e-styles
+	url = https://github.com/eldritch-blast/5e-styles.git
+[submodule "source/fonts/5e"]
+	path = source/fonts/5e
+	url = https://github.com/jonathonf/solbera-dnd-fonts.git
